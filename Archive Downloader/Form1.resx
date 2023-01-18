@@ -117,7 +117,4 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="logTextBox.Text" xml:space="preserve">
-    <value>Welcome to Archive Downloader Powered By Aria2. Please enter your link and number of connections to download a single file. To download multiple files please create a list of links, one link per line and select number of connections. Then click the download button to download your list of links.</value>
-  </data>
 </root>
