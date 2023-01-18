@@ -141,22 +141,20 @@ namespace Archive_Downloader
             DirectoryInfo di = Directory.CreateDirectory(dirName);
             if (Directory.Exists(dirName))//If download dir is there, say its there
             {
-                logRichTextBox.Text = ("Download Directory exists");
-                logRichTextBox.Text = "Now Downloading, Please Wait. \nA full Log Will Be Shown Here.";
+                logRichTextBox.Text = ("Download Directory Exists\nNow Downloading, Please Wait. \nA full Log Will Be Shown Here.");
+
             }
 
             else//If its not there say its not there, print in log window and create the dir
             {
-                logRichTextBox.Text = ("Download Directory does not exist\nCreating Directory");
-                logRichTextBox.Text = ($"Full name: {di.FullName}, Name: {di.Name}, Parent: {di.Parent}");
-                logRichTextBox.Text = "Now Downloading, Please Wait. \nA full Log Will Be Shown Here.";
+                logRichTextBox.Text = ("Download Directory Does Not Exist\nCreating Directory\nNow Downloading, Please Wait. \nA full Log Will Be Shown Here.");
 
             }
 
             this.Invoke((MethodInvoker)delegate
             {
                 //loadingLabel.Text = "Now Downloading, Please Wait. A full Log Will Be Shown Here.";
-                System.Windows.Forms.MessageBox.Show("Download Started", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                System.Windows.Forms.MessageBox.Show("Download Started\nClick OK To Continue", "Download Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 // Use ProcessStartInfo class
                 ProcessStartInfo startDL = new ProcessStartInfo();//Create process StartDL
@@ -248,20 +246,19 @@ namespace Archive_Downloader
             DirectoryInfo di = Directory.CreateDirectory(dirName);
             if (Directory.Exists(dirName))//If download dir is there, say its there
             {
-                logRichTextBox.Text = ("Download Directory exists\nNow Downloading, Please Wait. \nA full Log Will Be Shown Here.");
+                logRichTextBox.Text = ("Download Directory Exists\nNow Downloading, Please Wait. \nA full Log Will Be Shown Here.");
             }
 
             else//If its not there say its not there, print in log window and create the dir
             {
-                logRichTextBox.Text = ("Download Directory does not exist\nCreating Directory\nNow Downloading, Please Wait. \nA full Log Will Be Shown Here.");
+                logRichTextBox.Text = ("Download Directory Does Not Exist\nCreating Directory\nNow Downloading, Please Wait. \nA full Log Will Be Shown Here.");
 
             }
 
             this.Invoke((MethodInvoker)delegate
             {
                 //loadingLabel.Text = "Now Downloading, Please Wait. A full Log Will Be Shown Here.";
-                System.Windows.Forms.MessageBox.Show("Download Started", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
+                System.Windows.Forms.MessageBox.Show("Download Finished", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 // Use ProcessStartInfo class
                 ProcessStartInfo startDL = new ProcessStartInfo();//Create process StartDL
                 startDL.CreateNoWindow = true;
