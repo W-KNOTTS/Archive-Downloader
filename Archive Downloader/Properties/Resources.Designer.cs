@@ -61,11 +61,47 @@ namespace Archive_Downloader.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] aria2c {
+            get {
+                object obj = ResourceManager.GetObject("aria2c", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap close {
             get {
                 object obj = ResourceManager.GetObject("close", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to https://archive.org/download/xboxrepo0-Calt/xboxrepo0-Calt_files.xml
+        ///https://archive.org/download/xboxrepo0-Calt/xboxrepo0-Calt_files.xml
+        ///https://archive.org/download/xboxrepo0-Calt/xboxrepo0-Calt_files.xml
+        ///https://archive.org/download/xboxrepo0-Calt/xboxrepo0-Calt_files.xml
+        ///https://archive.org/download/xboxrepo0-Calt/xboxrepo0-Calt_files.xml
+        ///https://archive.org/download/xboxrepo0-Calt/xboxrepo0-Calt_files.xml
+        ///https://archive.org/download/xboxrepo0-Calt/xboxrepo0-Calt_files.xml
+        ///https://archive.org/do [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string links {
+            get {
+                return ResourceManager.GetString("links", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap loading {
+            get {
+                object obj = ResourceManager.GetObject("loading", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

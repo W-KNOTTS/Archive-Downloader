@@ -1,0 +1,11 @@
+C:\Users\Will\Documents\_______CST-326\ArchiveDownloaderVS\Archive Downloader\Archive Downloader\bin\Debug\Archive Downloader.exe.config
+C:\Users\Will\Documents\_______CST-326\ArchiveDownloaderVS\Archive Downloader\Archive Downloader\bin\Debug\Archive Downloader.exe
+C:\Users\Will\Documents\_______CST-326\ArchiveDownloaderVS\Archive Downloader\Archive Downloader\bin\Debug\Archive Downloader.pdb
+C:\Users\Will\Documents\_______CST-326\ArchiveDownloaderVS\Archive Downloader\Archive Downloader\obj\Debug\Archive Downloader.csproj.AssemblyReference.cache
+C:\Users\Will\Documents\_______CST-326\ArchiveDownloaderVS\Archive Downloader\Archive Downloader\obj\Debug\Archive_Downloader.Form1.resources
+C:\Users\Will\Documents\_______CST-326\ArchiveDownloaderVS\Archive Downloader\Archive Downloader\obj\Debug\Archive_Downloader.Properties.Resources.resources
+C:\Users\Will\Documents\_______CST-326\ArchiveDownloaderVS\Archive Downloader\Archive Downloader\obj\Debug\Archive Downloader.csproj.GenerateResource.cache
+C:\Users\Will\Documents\_______CST-326\ArchiveDownloaderVS\Archive Downloader\Archive Downloader\obj\Debug\Archive Downloader.csproj.CoreCompileInputs.cache
+C:\Users\Will\Documents\_______CST-326\ArchiveDownloaderVS\Archive Downloader\Archive Downloader\obj\Debug\Archive Downloader.exe
+C:\Users\Will\Documents\_______CST-326\ArchiveDownloaderVS\Archive Downloader\Archive Downloader\obj\Debug\Archive Downloader.pdb
+C:\Users\Will\Documents\_______CST-326\ArchiveDownloaderVS\Archive Downloader\Archive Downloader\bin\Debug\Aria2\aria2c.exe
