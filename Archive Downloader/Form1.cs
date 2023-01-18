@@ -12,6 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
+using System.Runtime.InteropServices;
 
 namespace Archive_Downloader
 {
@@ -21,149 +22,177 @@ namespace Archive_Downloader
         public Form1()
         {
             InitializeComponent();
-           
+            multiDLButton.Hide();//Start by hiding the multi download button
+            downloadButton.Show();//Start by showing single link download button
         }
 
-
+        //Form Load
         private void Form1_Load(object sender, EventArgs e)
         {
-            settingsPanel.Height = 25;
+            settingsPanel.Height = 25;//Set height for settings bar
+            this.panel1.MouseMove += new MouseEventHandler(drag_MouseMove);//Allow Drag From Tool Bar
+            this.titleLabel.MouseMove += new MouseEventHandler(drag_MouseMove);//Allow Drag from App Title
+            this.iconPictureBox.MouseMove += new MouseEventHandler(drag_MouseMove);//Allow Drag from App Icon
         }
 
+        //Imports and settings for mouse drag
+        public const int WM_NCLBUTTONDOWN = 0xA1;//Constant for mouse drag
+        public const int HT_CAPTION = 0x2;//Other constant for mouse drag
+        [DllImportAttribute("user32.dll")]//Import DLL for the aboility for dragging
+        public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);//When mouse is held window will follow mouse
+        [DllImportAttribute("user32.dll")]//Import DLL for the aboility for dragging
+        public static extern bool ReleaseCapture();//release the window after mouse click is over
+
+        //Drag function for moving form
+        private void drag_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                ReleaseCapture();//release the window after mouse click is over
+                SendMessage(Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
+            }
+        }
+
+        //Link label and Link for github page
         private void gitLinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             System.Diagnostics.Process.Start("https://github.com/W-KNOTTS/Archive-Downloader");
         }
 
+        //Settings button
         private void settingsButton_Click(object sender, EventArgs e)
         {
-            if (settingsPanel.Height == 100)
+            if (settingsPanel.Height == 100)//if the settings panel is expanded 
             {
-                settingsPanel.Height = 25;
+                settingsPanel.Height = 25;//Shrink settings window
             }
             else
             {
-                settingsPanel.Height = 100;
+                settingsPanel.Height = 100;//else grow the settings window
             }
         }
 
+        //Close Button
         private void closeButton_Click(object sender, EventArgs e)
         {
-            this.Close();
+            this.Close();//Closes out the program
         }
 
+        //Quit Button
         private void quitButton_Click(object sender, EventArgs e)
         {
-            
-            this.Close();
+            this.Close();//Closes out the program
         }
 
+        //FTP Sttings button
         private void ftpSettingsButton_Click(object sender, EventArgs e)
         {
-            logRichTextBox.Text = "";
-            settingsPanel.Height = 25;
-            Hideparts();
-            userNamelabel.Show();
-            passwordLabel.Show();
-            userNameTextBox.Show();
-            passwordTextBox.Show();
-            saveButton.Show();
+            logRichTextBox.Text = "";//Clear log box
+            settingsPanel.Height = 25;//Shrink settings
+            Hideparts();//Hide parts function to hide main window items
+            userNamelabel.Show();//Show username label 
+            passwordLabel.Show();//show password label
+            userNameTextBox.Show();//show username text box //////// PLACE HOLDER - Currently does nothing!!!
+            passwordTextBox.Show();//show Password text box //////// PLACE HOLDER - Currently does nothing!!!
+            saveButton.Show();//Show the save ftp user settings.
         }
 
+        //Hideparts function to hide form items
         private void Hideparts()
         {
-            downloadButton.Hide();
-            linkLabel.Hide();
-            linkTextBox.Hide();
-            conLabel.Hide();
-            connectionComboBox.Hide();
-            linkFileButton.Hide();
-            linkFileLabel.Hide();
-            resumeButton.Hide();
+            multiDLButton.Hide();//Hide the multi download button
+            downloadButton.Hide();//Hide the download button
+            linkLabel.Hide();//Hide link label 
+            linkTextBox.Hide();//Hide link text box
+            conLabel.Hide();//Hide num of connections label
+            connectionComboBox.Hide();//Hides cons combo boc
+            linkFileButton.Hide();// Hide the link file button
+            linkFileLabel.Hide();// hide link label
+            resumeButton.Hide();// hide download resume button //////// DOES NOT FUNCTION YET - Place holder!!
         }
 
+        //Shows hidden Items
         private void ShowParts()
         {
-            downloadButton.Show();
-            linkLabel.Show();
-            linkTextBox.Show();
-            conLabel.Show();
-            connectionComboBox.Show();
-            linkFileButton.Show();
-            linkFileLabel.Show();
-            resumeButton.Show();
+            downloadButton.Show();//Show download button
+            linkLabel.Show();//show link label 
+            linkTextBox.Show();//show link text box
+            conLabel.Show();//show connection labels 
+            connectionComboBox.Show();//show the combo box
+            linkFileButton.Show();//show link file button
+            linkFileLabel.Show();//show link file label
+            resumeButton.Show();//show the resume button
         }
 
+        //Save file button 
         private void saveButton_Click(object sender, EventArgs e)
         {
-            userNamelabel.Hide();
-            passwordLabel.Hide();
-            userNameTextBox.Hide();
-            passwordTextBox.Hide();
-            saveButton.Hide();
-            ShowParts();
+            userNamelabel.Hide();//Hide username label
+            passwordLabel.Hide();//Hide Password Label
+            userNameTextBox.Hide();//Hide ftp username box
+            passwordTextBox.Hide();//Hide ftp password box
+            saveButton.Hide();//Hide the save button
+            ShowParts();//Run the show forms items function
         }
 
+        //About Button
         private void button1_Click(object sender, EventArgs e)
         {
-            settingsPanel.Height = 25;
-            logRichTextBox.Text = "";
-            logRichTextBox.Text = "CST-326 Milestone Project Created By:\n William Knotts,\n Antowan Graham,\n Bradley Austin,\n Joseph Carrillo,\n Mara Munoz";
+            settingsPanel.Height = 25;//Set settings bar size after selecting about
+            logRichTextBox.Text = "";//Clear Log window
+            logRichTextBox.Text = "CST-326 Milestone Project Created By:\n William Knotts,\n Antowan Graham,\n Bradley Austin,\n Joseph Carrillo,\n Mara Munoz";//Credits as a place holder
         }
 
+        //Error Catch
         private static void process_ErrorDataReceived(object sender, System.Diagnostics.DataReceivedEventArgs e)
         {
-            System.Windows.Forms.MessageBox.Show("Download Error", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            System.Windows.Forms.MessageBox.Show("Download Error", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);//Show popup when an error is caught
         } 
 
+        //Download button
         private void downloadButton_Click(object sender, EventArgs e)
         {
-
-            logRichTextBox.Text = "";
+            logRichTextBox.Text = "";//Clear rich text box log window
             downloadButton.Enabled = false; // disable button while saving report                  
-            StartDL();
+            StartDL();//Run start download function
         }
-
-       
-
+   
+        //Start Download Function
         private void StartDL()
         {
-
-
             // Variables, Strings, ect
             string link = linkTextBox.Text;// sets the text of linkTextBox as the link var
             string cons = connectionComboBox.Text;// takes the selection from the combobox and converts it to a string to use with aria2
             string saveDir = "-d";//The directory to store the downloaded file
             string sw1 = "-x";//The maximum number of connections to one server for each download.
-            var dirName = $@"Downloads";
+            var dirName = $@"Downloads";//TEMP - Set the name of the downloads directory ///////// WILL USE A USER VARIABLE TO SET DIRECTORY!!!!!!
 
             //For Testing commands
-            DirectoryInfo di = Directory.CreateDirectory(dirName);
+            DirectoryInfo di = Directory.CreateDirectory(dirName);//Create directory
             if (Directory.Exists(dirName))//If download dir is there, say its there
             {
-                logRichTextBox.Text = ("Download Directory Exists\nNow Downloading, Please Wait. \nA full Log Will Be Shown Here.");
-
+                logRichTextBox.Text = ("Download Directory Exists\nNow Downloading, Please Wait. \nA full Log Will Be Shown Here.");//Show info in log box
             }
 
             else//If its not there say its not there, print in log window and create the dir
             {
-                logRichTextBox.Text = ("Download Directory Does Not Exist\nCreating Directory\nNow Downloading, Please Wait. \nA full Log Will Be Shown Here.");
-
+                logRichTextBox.Text = ("Download Directory Does Not Exist\nCreating Directory\nNow Downloading, Please Wait. \nA full Log Will Be Shown Here.");// Show message in the log box
             }
 
+            //Invoker for downloading using ARIA2c
             this.Invoke((MethodInvoker)delegate
             {
-                //loadingLabel.Text = "Now Downloading, Please Wait. A full Log Will Be Shown Here.";
-                System.Windows.Forms.MessageBox.Show("Download Started\nClick OK To Continue", "Download Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                System.Windows.Forms.MessageBox.Show("Download Started\nClick OK To Continue", "Download Information", MessageBoxButtons.OK, MessageBoxIcon.Information);// popup for download start
 
                 // Use ProcessStartInfo class
                 ProcessStartInfo startDL = new ProcessStartInfo();//Create process StartDL
-                startDL.CreateNoWindow = true;
-                startDL.UseShellExecute = false;
-                startDL.RedirectStandardOutput = true;
-                startDL.FileName = "Aria2/aria2c.exe";
-                startDL.WindowStyle = ProcessWindowStyle.Hidden;
-                startDL.Arguments = sw1 + " " + cons + " " + link + " " + saveDir + " " + dirName;
+                startDL.CreateNoWindow = true;//Do not create a new terminal window
+                startDL.UseShellExecute = false;//Do not use shell 
+                startDL.RedirectStandardOutput = true;//Redirect output to rich text box
+                startDL.FileName = "Aria2/aria2c.exe";//Location of Aria binary
+                startDL.WindowStyle = ProcessWindowStyle.Hidden;//Hide cmd window
+                startDL.Arguments = sw1 + " " + cons + " " + link + " " + saveDir + " " + dirName;// Looks Like
+                //Command Example:  "aria2c.exe -x 16 www.site.com/download.zip -d Downloads"
                 try
                 {            
                     // Start the process with the info we specified.
@@ -182,58 +211,55 @@ namespace Archive_Downloader
                     System.Windows.Forms.MessageBox.Show("Download Error", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             });
-            string dt = DateTime.Now.ToString("yyyy-dd-M--HH-mm-ss");
-            logRichTextBox.SaveFile($"Downloads/{dt}_Logs.txt", RichTextBoxStreamType.RichText);
-            downloadButton.Enabled = true;
+            string dt = DateTime.Now.ToString("yyyy-dd-M--HH-mm-ss");// date time to string
+            logRichTextBox.SaveFile($"Downloads/{dt}_Logs.txt", RichTextBoxStreamType.RichText);//Save log window to log file with date timestamp
+            downloadButton.Enabled = true;//Reinable download button after download finished
         }
 
-        
-
+        //linkTextBox
         private void linkTextBox_TextChanged(object sender, EventArgs e)
         {
-
+            //Nothing here to see at the time
         }
 
-        private void logButton_Click(object sender, EventArgs e)
+        //Help Button****************************************
+        private void logButton_Click(object sender, EventArgs e)//Log Button is now the Help button
         {
+            //Print About Message in the log window
             logRichTextBox.Text = "Welcome to Archive Downloader Powered By Aria2. Please enter your link and number of connections to download a single file. To download multiple files please create a list of links, one link per line and select number of connections. Then click the download button to download your list of links.";
         }
 
+        //Home button in the settings 
         private void homeButton_Click(object sender, EventArgs e)
         {
-            settingsPanel.Height = 25;
-            userNamelabel.Hide();
-            passwordLabel.Hide();
-            userNameTextBox.Hide();
-            passwordTextBox.Hide();
-            saveButton.Hide();
-            ShowParts();
+            settingsPanel.Height = 25;//Shrink settings option
+            userNamelabel.Hide();//Hide FTP Username label
+            passwordLabel.Hide();//Hide password label
+            userNameTextBox.Hide();//Hide Username Text Box
+            passwordTextBox.Hide();//Hide Password Text Box
+            saveButton.Hide();//Hide Save Button
+            ShowParts();//Run Show Parts function
         }
 
-        private void loadPictureBox_Click(object sender, EventArgs e)
-        {
-
-        }
-
+        //Link File Button
         private void linkFileButton_Click(object sender, EventArgs e)
         {
-            downloadButton.Hide();
-            multiDLButton.Show();
-            OpenFileDialog resumeFile = new OpenFileDialog();
-            resumeFile.Filter = "Text file (*.txt)|*.txt|All files (*.*)|*.*";
+            downloadButton.Hide();//Hide the download button 
+            multiDLButton.Show();//show the multidownload button
+            OpenFileDialog resumeFile = new OpenFileDialog();//Open file search for text file
+            resumeFile.Filter = "Text file (*.txt)|*.txt|All files (*.*)|*.*";//Only show .txt or all files when searching for a link list
 
-            if (resumeFile.ShowDialog() == DialogResult.OK)
+            if (resumeFile.ShowDialog() == DialogResult.OK)//File added = OK ///////////////// NEED TO ADD RELITIVE AND ABSOLUTE PATHS
             {
-                pathLabel.Text = "Link File Added";
-                logRichTextBox.Text = Path.GetFileName(resumeFile.FileName);
+                //Currently only works with TEXT FILE in the working Directory
+                pathLabel.Text = "Link File Added";//Print Link File Added to the label to the right of the button
+                logRichTextBox.Text = Path.GetFileName(resumeFile.FileName);// Print File Name in the log window
             }
-
         }
 
+        //Mutli Download Function 
         private void StartMultiDL()
         {
-
-
             // Variables, Strings, ect
             string linkfile = logRichTextBox.Text;// sets the text of linkTextBox as the link var
             string cons = connectionComboBox.Text;// takes the selection from the combobox and converts it to a string to use with aria2
@@ -257,48 +283,48 @@ namespace Archive_Downloader
 
             this.Invoke((MethodInvoker)delegate
             {
-                //loadingLabel.Text = "Now Downloading, Please Wait. A full Log Will Be Shown Here.";
+                //Show messgae box when download fineshes
                 System.Windows.Forms.MessageBox.Show("Download Finished", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 // Use ProcessStartInfo class
                 ProcessStartInfo startDL = new ProcessStartInfo();//Create process StartDL
-                startDL.CreateNoWindow = true;
-                startDL.UseShellExecute = false;
-                startDL.RedirectStandardOutput = true;
-                startDL.FileName = "Aria2/aria2c.exe";
-                startDL.WindowStyle = ProcessWindowStyle.Hidden;
-                startDL.Arguments = $"{sw2} {linkfile} {sw1} {cons} {saveDir} {dirName}";
+                startDL.CreateNoWindow = true;//Do not create new terminal window for the task
+                startDL.UseShellExecute = false;//Do not use shell to execute command
+                startDL.RedirectStandardOutput = true;//Redirect terminal window to rich text box
+                startDL.FileName = "Aria2/aria2c.exe";// Location and aria2.exe
+                startDL.WindowStyle = ProcessWindowStyle.Hidden;//Hides command window
+                startDL.Arguments = $"{sw2} {linkfile} {sw1} {cons} {saveDir} {dirName}";//Example of link: "aria2c.exe -i link.txt -x 16 -d Downloads"
                 try
                 {
                     // Start the process with the info we specified.
                     // Call WaitForExit and then the using statement will close.
                     using (Process dlProcess = Process.Start(startDL))
                     {
-                        string Output = dlProcess.StandardOutput.ReadToEnd();
-                        dlProcess.WaitForExit();
-                        logRichTextBox.Text = Output;
-                        System.Windows.Forms.MessageBox.Show("Download Finished", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        string Output = dlProcess.StandardOutput.ReadToEnd();//String for redirect of log output
+                        dlProcess.WaitForExit();//Wait for DL to finish before exit
+                        logRichTextBox.Text = Output;//Print output string redirect to the rich text box
+                        System.Windows.Forms.MessageBox.Show("Download Finished", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);//Download finished
                     }
                 }
 
                 catch
                 {
+                    //Catch error and create popup saying there was a download error.
                     System.Windows.Forms.MessageBox.Show("Download Error", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             });
-            string dt = DateTime.Now.ToString("yyyy-dd-M--HH-mm-ss");
-            logRichTextBox.SaveFile($"Downloads/{dt}_Logs.txt", RichTextBoxStreamType.RichText);
-            downloadButton.Enabled = true;
-            multiDLButton.Enabled = true;
-            multiDLButton.Hide();
-            downloadButton.Show();
-            pathLabel.Text = "";
+            string dt = DateTime.Now.ToString("yyyy-dd-M--HH-mm-ss");//Create DT string to hold current date and time
+            logRichTextBox.SaveFile($"Downloads/{dt}_Logs.txt", RichTextBoxStreamType.RichText);//Output log window to log file
+            downloadButton.Enabled = true;//Reenable the download button
+            multiDLButton.Enabled = true;//Reenable the download button
+            multiDLButton.Hide();//Hide multidownload Button
+            downloadButton.Show();//Show single link DL Button
+            pathLabel.Text = "";//Clear the path text box
 
         }
 
         private void multiDLButton_Click(object sender, EventArgs e)
         {
-            StartMultiDL();
-
+            StartMultiDL();// Run Multidownload function from clicking the Multi download button.
         }
     }
 }

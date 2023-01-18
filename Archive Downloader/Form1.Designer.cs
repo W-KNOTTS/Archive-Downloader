@@ -41,10 +41,11 @@ namespace Archive_Downloader
             this.gitLinkLabel = new System.Windows.Forms.LinkLabel();
             this.resumeButton = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.closeButton = new System.Windows.Forms.Button();
             this.settingsPanel = new System.Windows.Forms.Panel();
-            this.homeButton = new System.Windows.Forms.Button();
-            this.ftpSettingsButton = new System.Windows.Forms.Button();
             this.aboutButton = new System.Windows.Forms.Button();
+            this.ftpSettingsButton = new System.Windows.Forms.Button();
+            this.homeButton = new System.Windows.Forms.Button();
             this.settingsButton = new System.Windows.Forms.Button();
             this.userNamelabel = new System.Windows.Forms.Label();
             this.passwordLabel = new System.Windows.Forms.Label();
@@ -52,11 +53,13 @@ namespace Archive_Downloader
             this.passwordTextBox = new System.Windows.Forms.TextBox();
             this.saveButton = new System.Windows.Forms.Button();
             this.logRichTextBox = new System.Windows.Forms.RichTextBox();
-            this.closeButton = new System.Windows.Forms.Button();
             this.pathLabel = new System.Windows.Forms.Label();
             this.multiDLButton = new System.Windows.Forms.Button();
+            this.iconPictureBox = new System.Windows.Forms.PictureBox();
+            this.titleLabel = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.settingsPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.iconPictureBox)).BeginInit();
             this.SuspendLayout();
             // 
             // linkTextBox
@@ -184,12 +187,24 @@ namespace Archive_Downloader
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.panel1.Controls.Add(this.titleLabel);
             this.panel1.Controls.Add(this.closeButton);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(549, 25);
             this.panel1.TabIndex = 12;
+            // 
+            // closeButton
+            // 
+            this.closeButton.BackgroundImage = global::Archive_Downloader.Properties.Resources.close;
+            this.closeButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.closeButton.Location = new System.Drawing.Point(521, -2);
+            this.closeButton.Name = "closeButton";
+            this.closeButton.Size = new System.Drawing.Size(30, 29);
+            this.closeButton.TabIndex = 3;
+            this.closeButton.UseVisualStyleBackColor = true;
+            this.closeButton.Click += new System.EventHandler(this.closeButton_Click);
             // 
             // settingsPanel
             // 
@@ -203,18 +218,18 @@ namespace Archive_Downloader
             this.settingsPanel.Size = new System.Drawing.Size(114, 100);
             this.settingsPanel.TabIndex = 13;
             // 
-            // homeButton
+            // aboutButton
             // 
-            this.homeButton.Dock = System.Windows.Forms.DockStyle.Top;
-            this.homeButton.FlatAppearance.BorderSize = 0;
-            this.homeButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.homeButton.Location = new System.Drawing.Point(0, 25);
-            this.homeButton.Name = "homeButton";
-            this.homeButton.Size = new System.Drawing.Size(114, 25);
-            this.homeButton.TabIndex = 3;
-            this.homeButton.Text = "Home";
-            this.homeButton.UseVisualStyleBackColor = true;
-            this.homeButton.Click += new System.EventHandler(this.homeButton_Click);
+            this.aboutButton.Dock = System.Windows.Forms.DockStyle.Top;
+            this.aboutButton.FlatAppearance.BorderSize = 0;
+            this.aboutButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.aboutButton.Location = new System.Drawing.Point(0, 75);
+            this.aboutButton.Name = "aboutButton";
+            this.aboutButton.Size = new System.Drawing.Size(114, 25);
+            this.aboutButton.TabIndex = 2;
+            this.aboutButton.Text = "About";
+            this.aboutButton.UseVisualStyleBackColor = true;
+            this.aboutButton.Click += new System.EventHandler(this.button1_Click);
             // 
             // ftpSettingsButton
             // 
@@ -229,18 +244,18 @@ namespace Archive_Downloader
             this.ftpSettingsButton.UseVisualStyleBackColor = true;
             this.ftpSettingsButton.Click += new System.EventHandler(this.ftpSettingsButton_Click);
             // 
-            // aboutButton
+            // homeButton
             // 
-            this.aboutButton.Dock = System.Windows.Forms.DockStyle.Top;
-            this.aboutButton.FlatAppearance.BorderSize = 0;
-            this.aboutButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.aboutButton.Location = new System.Drawing.Point(0, 75);
-            this.aboutButton.Name = "aboutButton";
-            this.aboutButton.Size = new System.Drawing.Size(114, 25);
-            this.aboutButton.TabIndex = 2;
-            this.aboutButton.Text = "About";
-            this.aboutButton.UseVisualStyleBackColor = true;
-            this.aboutButton.Click += new System.EventHandler(this.button1_Click);
+            this.homeButton.Dock = System.Windows.Forms.DockStyle.Top;
+            this.homeButton.FlatAppearance.BorderSize = 0;
+            this.homeButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.homeButton.Location = new System.Drawing.Point(0, 25);
+            this.homeButton.Name = "homeButton";
+            this.homeButton.Size = new System.Drawing.Size(114, 25);
+            this.homeButton.TabIndex = 3;
+            this.homeButton.Text = "Home";
+            this.homeButton.UseVisualStyleBackColor = true;
+            this.homeButton.Click += new System.EventHandler(this.homeButton_Click);
             // 
             // settingsButton
             // 
@@ -310,17 +325,6 @@ namespace Archive_Downloader
             this.logRichTextBox.TabIndex = 19;
             this.logRichTextBox.Text = "";
             // 
-            // closeButton
-            // 
-            this.closeButton.BackgroundImage = global::Archive_Downloader.Properties.Resources.close;
-            this.closeButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.closeButton.Location = new System.Drawing.Point(521, -2);
-            this.closeButton.Name = "closeButton";
-            this.closeButton.Size = new System.Drawing.Size(30, 29);
-            this.closeButton.TabIndex = 3;
-            this.closeButton.UseVisualStyleBackColor = true;
-            this.closeButton.Click += new System.EventHandler(this.closeButton_Click);
-            // 
             // pathLabel
             // 
             this.pathLabel.AutoSize = true;
@@ -339,11 +343,38 @@ namespace Archive_Downloader
             this.multiDLButton.UseVisualStyleBackColor = true;
             this.multiDLButton.Click += new System.EventHandler(this.multiDLButton_Click);
             // 
+            // iconPictureBox
+            // 
+            this.iconPictureBox.BackColor = System.Drawing.Color.Transparent;
+            this.iconPictureBox.BackgroundImage = global::Archive_Downloader.Properties.Resources.aria2DL;
+            this.iconPictureBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.iconPictureBox.ErrorImage = global::Archive_Downloader.Properties.Resources.loading;
+            this.iconPictureBox.InitialImage = null;
+            this.iconPictureBox.Location = new System.Drawing.Point(-1, 0);
+            this.iconPictureBox.Name = "iconPictureBox";
+            this.iconPictureBox.Size = new System.Drawing.Size(26, 25);
+            this.iconPictureBox.TabIndex = 22;
+            this.iconPictureBox.TabStop = false;
+            // 
+            // titleLabel
+            // 
+            this.titleLabel.AutoSize = true;
+            this.titleLabel.BackColor = System.Drawing.Color.Transparent;
+            this.titleLabel.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.titleLabel.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.titleLabel.ForeColor = System.Drawing.SystemColors.Desktop;
+            this.titleLabel.Location = new System.Drawing.Point(28, 3);
+            this.titleLabel.Name = "titleLabel";
+            this.titleLabel.Size = new System.Drawing.Size(283, 19);
+            this.titleLabel.TabIndex = 23;
+            this.titleLabel.Text = "Archive Downloader: Powered By - ARIA2c";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(549, 450);
+            this.Controls.Add(this.iconPictureBox);
             this.Controls.Add(this.settingsPanel);
             this.Controls.Add(this.multiDLButton);
             this.Controls.Add(this.pathLabel);
@@ -371,7 +402,9 @@ namespace Archive_Downloader
             this.Text = "Archive Downloader";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.settingsPanel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.iconPictureBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -405,6 +438,8 @@ namespace Archive_Downloader
         private System.Windows.Forms.Button homeButton;
         private System.Windows.Forms.Label pathLabel;
         private System.Windows.Forms.Button multiDLButton;
+        private System.Windows.Forms.PictureBox iconPictureBox;
+        private System.Windows.Forms.Label titleLabel;
     }
 }
 

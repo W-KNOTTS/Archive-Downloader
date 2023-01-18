@@ -84,6 +84,7 @@
     <Content Include="Aria2\aria2c.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="icons\aria2DL.png" />
     <Content Include="icons\close.png" />
     <Content Include="icons\loading.png" />
     <Content Include="links.txt">
