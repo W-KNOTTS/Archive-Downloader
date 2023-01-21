@@ -259,6 +259,7 @@ namespace Archive_Downloader
             // Variables, Strings, ect
             String SW0 = "-d";// -d The directory to store the downloaded file
             String Link = linkTextBox.Text;// sets the text of linkTextBox as the link var
+            String CONS = connectionComboBox.Text;// takes the selection from the combobox and converts it to a string to use with aria2
 
             //Invoker for downloading using ARIA2c
             this.Invoke((MethodInvoker)delegate
