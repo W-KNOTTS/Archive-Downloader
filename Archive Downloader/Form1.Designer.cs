@@ -29,6 +29,7 @@ namespace Archive_Downloader
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.linkTextBox = new System.Windows.Forms.TextBox();
             this.linkLabel = new System.Windows.Forms.Label();
             this.conLabel = new System.Windows.Forms.Label();
@@ -41,6 +42,7 @@ namespace Archive_Downloader
             this.gitLinkLabel = new System.Windows.Forms.LinkLabel();
             this.resumeButton = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.titleLabel = new System.Windows.Forms.Label();
             this.closeButton = new System.Windows.Forms.Button();
             this.settingsPanel = new System.Windows.Forms.Panel();
             this.aboutButton = new System.Windows.Forms.Button();
@@ -56,7 +58,9 @@ namespace Archive_Downloader
             this.pathLabel = new System.Windows.Forms.Label();
             this.multiDLButton = new System.Windows.Forms.Button();
             this.iconPictureBox = new System.Windows.Forms.PictureBox();
-            this.titleLabel = new System.Windows.Forms.Label();
+            this.saveDirLabel = new System.Windows.Forms.Label();
+            this.linkTextFileLabel = new System.Windows.Forms.Label();
+            this.maxSpeedCheckBox = new System.Windows.Forms.CheckBox();
             this.panel1.SuspendLayout();
             this.settingsPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.iconPictureBox)).BeginInit();
@@ -68,7 +72,6 @@ namespace Archive_Downloader
             this.linkTextBox.Name = "linkTextBox";
             this.linkTextBox.Size = new System.Drawing.Size(228, 20);
             this.linkTextBox.TabIndex = 0;
-            this.linkTextBox.Text = "https://archive.org/download/genpsp0_01_11.7z/genpsp0_01_11.zip";
             this.linkTextBox.TextChanged += new System.EventHandler(this.linkTextBox_TextChanged);
             // 
             // linkLabel
@@ -194,6 +197,19 @@ namespace Archive_Downloader
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(549, 25);
             this.panel1.TabIndex = 12;
+            // 
+            // titleLabel
+            // 
+            this.titleLabel.AutoSize = true;
+            this.titleLabel.BackColor = System.Drawing.Color.Transparent;
+            this.titleLabel.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.titleLabel.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.titleLabel.ForeColor = System.Drawing.SystemColors.Desktop;
+            this.titleLabel.Location = new System.Drawing.Point(28, 3);
+            this.titleLabel.Name = "titleLabel";
+            this.titleLabel.Size = new System.Drawing.Size(283, 19);
+            this.titleLabel.TabIndex = 23;
+            this.titleLabel.Text = "Archive Downloader: Powered By - ARIA2c";
             // 
             // closeButton
             // 
@@ -356,24 +372,44 @@ namespace Archive_Downloader
             this.iconPictureBox.TabIndex = 22;
             this.iconPictureBox.TabStop = false;
             // 
-            // titleLabel
+            // saveDirLabel
             // 
-            this.titleLabel.AutoSize = true;
-            this.titleLabel.BackColor = System.Drawing.Color.Transparent;
-            this.titleLabel.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.titleLabel.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.titleLabel.ForeColor = System.Drawing.SystemColors.Desktop;
-            this.titleLabel.Location = new System.Drawing.Point(28, 3);
-            this.titleLabel.Name = "titleLabel";
-            this.titleLabel.Size = new System.Drawing.Size(283, 19);
-            this.titleLabel.TabIndex = 23;
-            this.titleLabel.Text = "Archive Downloader: Powered By - ARIA2c";
+            this.saveDirLabel.AutoSize = true;
+            this.saveDirLabel.Location = new System.Drawing.Point(27, 104);
+            this.saveDirLabel.Name = "saveDirLabel";
+            this.saveDirLabel.Size = new System.Drawing.Size(48, 13);
+            this.saveDirLabel.TabIndex = 23;
+            this.saveDirLabel.Text = "Save Dir";
+            // 
+            // linkTextFileLabel
+            // 
+            this.linkTextFileLabel.AutoSize = true;
+            this.linkTextFileLabel.Location = new System.Drawing.Point(334, 80);
+            this.linkTextFileLabel.Name = "linkTextFileLabel";
+            this.linkTextFileLabel.Size = new System.Drawing.Size(0, 13);
+            this.linkTextFileLabel.TabIndex = 24;
+            // 
+            // maxSpeedCheckBox
+            // 
+            this.maxSpeedCheckBox.AutoSize = true;
+            this.maxSpeedCheckBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.maxSpeedCheckBox.ForeColor = System.Drawing.Color.DarkRed;
+            this.maxSpeedCheckBox.Location = new System.Drawing.Point(441, 103);
+            this.maxSpeedCheckBox.Name = "maxSpeedCheckBox";
+            this.maxSpeedCheckBox.Size = new System.Drawing.Size(90, 17);
+            this.maxSpeedCheckBox.TabIndex = 25;
+            this.maxSpeedCheckBox.Text = "TurboMode";
+            this.maxSpeedCheckBox.UseVisualStyleBackColor = true;
+            this.maxSpeedCheckBox.CheckedChanged += new System.EventHandler(this.maxSpeedCheckBox_CheckedChanged);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(549, 450);
+            this.Controls.Add(this.maxSpeedCheckBox);
+            this.Controls.Add(this.linkTextFileLabel);
+            this.Controls.Add(this.saveDirLabel);
             this.Controls.Add(this.iconPictureBox);
             this.Controls.Add(this.settingsPanel);
             this.Controls.Add(this.multiDLButton);
@@ -397,6 +433,7 @@ namespace Archive_Downloader
             this.Controls.Add(this.linkTextBox);
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Archive Downloader";
@@ -440,6 +477,9 @@ namespace Archive_Downloader
         private System.Windows.Forms.Button multiDLButton;
         private System.Windows.Forms.PictureBox iconPictureBox;
         private System.Windows.Forms.Label titleLabel;
+        private System.Windows.Forms.Label saveDirLabel;
+        private System.Windows.Forms.Label linkTextFileLabel;
+        private System.Windows.Forms.CheckBox maxSpeedCheckBox;
     }
 }
 

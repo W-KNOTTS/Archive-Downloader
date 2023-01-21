@@ -13,11 +13,27 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Runtime.InteropServices;
+using System.Media;
 
 namespace Archive_Downloader
 {
     public partial class Form1 : Form
     {
+        String SW0 = "";// -d The directory to store the downloaded file
+        String SW1 = "";// -x The maximum number of connections to one server for each download.
+        String SW2 = "";// -i Use link list file to download a list of links
+        String SW3 = "";// -c, --continue [true|false]
+        String SW4 = "";// -o, --out=<FILE>  The file name of the downloaded file. It is always relative to the directory given in --dir option
+        String SW5 = "";// -h, Help menu
+        String SPC = "";// This will be the space variable
+        String Linkfile = "";// sets the text of linkTextBox as the link var
+        String Link = "";// sets the text of linkTextBox as the link var
+        String SAVEDIR = "";// The Save Directory for the downloads
+        String CONS = "";// takes the selection from the combobox and converts it to a string to use with aria2
+        String MaxCons = "";//--max-connection-per-server=4 --min-split-size=1M
+        String LOGDIR = @"LOGS";
+        Form2 f2 = new Form2();
+        
 
         public Form1()
         {
@@ -29,10 +45,56 @@ namespace Archive_Downloader
         //Form Load
         private void Form1_Load(object sender, EventArgs e)
         {
+            
             settingsPanel.Height = 25;//Set height for settings bar
             this.panel1.MouseMove += new MouseEventHandler(drag_MouseMove);//Allow Drag From Tool Bar
             this.titleLabel.MouseMove += new MouseEventHandler(drag_MouseMove);//Allow Drag from App Title
             this.iconPictureBox.MouseMove += new MouseEventHandler(drag_MouseMove);//Allow Drag from App Icon
+            //Print About Message in the log window
+            logRichTextBox.Text = "Welcome to Archive Downloader Powered By Aria2. Please enter your link and number of connections to download a single file. To download multiple files please create a list of links, one link per line and select number of connections. Then click the download button to download your list of links.";
+
+            if (maxSpeedCheckBox.Checked)
+            {
+                String MaxCons = "--max-connection-per-server=16 --min-split-size=1M";//--max-connection-per-server=4 --min-split-size=1M
+            }
+            else
+            {
+                String MaxCons = $"{SW1} {CONS}";//else will allow you to set the num of connections
+            }
+        }
+
+        private void helpOptions()
+        {
+            String SW5 = "-h";// -h, Help menu
+            this.Invoke((MethodInvoker)delegate
+            {
+                //Show messgae box when download fineshes
+                // Use ProcessStartInfo class
+                ProcessStartInfo startDL = new ProcessStartInfo();//Create process StartDL
+                startDL.CreateNoWindow = true;//Do not create new terminal window for the task
+                startDL.UseShellExecute = false;//Do not use shell to execute command
+                startDL.RedirectStandardOutput = true;//Redirect terminal window to rich text box
+                startDL.FileName = "Aria2/aria2c.exe";// Location and aria2.exe
+                startDL.WindowStyle = ProcessWindowStyle.Hidden;//Hides command window
+                startDL.Arguments = $"{SW5}";//Show help menu
+                try
+                {
+                    // Start the process with the info we specified.
+                    // Call WaitForExit and then the using statement will close.
+                    using (Process dlProcess = Process.Start(startDL))
+                    {
+                        string Output = dlProcess.StandardOutput.ReadToEnd();//String for redirect of log output
+                        dlProcess.WaitForExit();//Wait for DL to finish before exit
+                        logRichTextBox.Text = Output;//Print output string redirect to the rich text box
+                    }
+                }
+
+                catch
+                {
+                    //Catch error and create popup saying there was a download error.
+                    System.Windows.Forms.MessageBox.Show("Download Error", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            });
         }
 
         //Imports and settings for mouse drag
@@ -75,12 +137,14 @@ namespace Archive_Downloader
         //Close Button
         private void closeButton_Click(object sender, EventArgs e)
         {
+            f2.Close();
             this.Close();//Closes out the program
         }
 
         //Quit Button
         private void quitButton_Click(object sender, EventArgs e)
         {
+            f2.Close();
             this.Close();//Closes out the program
         }
 
@@ -147,7 +211,34 @@ namespace Archive_Downloader
         private static void process_ErrorDataReceived(object sender, System.Diagnostics.DataReceivedEventArgs e)
         {
             System.Windows.Forms.MessageBox.Show("Download Error", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);//Show popup when an error is caught
-        } 
+        }
+
+        //Jingle function to play an audio stream
+        private void jingle()
+        {
+            SoundPlayer snd = new SoundPlayer(Properties.Resources.Rumper_Stumper);//new sound stream from resource file
+            snd.PlaySync();//PlaySync forces audio stream to play until the end
+        }
+
+        //Show form2 loading gif
+        private void showF2()
+        {
+            Thread t = new Thread(threadedLoad);// run form2 threaded        
+            t.SetApartmentState(ApartmentState.MTA);
+            t.Start(ApartmentState.MTA);
+        }
+
+        private void threadedLoad(object arg)
+        {
+            Application.Run(f2);//Run Form 2
+        }
+
+        //close form2 loading gif
+        private void hideF2()
+        {
+            f2.Close();//close downloadin animation
+            jingle();//Play sound until the end of the sound stream
+        }
 
         //Download button
         private void downloadButton_Click(object sender, EventArgs e)
@@ -156,64 +247,121 @@ namespace Archive_Downloader
             downloadButton.Enabled = false; // disable button while saving report                  
             StartDL();//Run start download function
         }
-   
+
         //Start Download Function
         private void StartDL()
         {
+            makeSaveDir();//make save directory
+            selSaveDir();//User Selected Save Directory
+            showF2();//show form2
+
             // Variables, Strings, ect
-            string link = linkTextBox.Text;// sets the text of linkTextBox as the link var
-            string cons = connectionComboBox.Text;// takes the selection from the combobox and converts it to a string to use with aria2
-            string saveDir = "-d";//The directory to store the downloaded file
-            string sw1 = "-x";//The maximum number of connections to one server for each download.
-            var dirName = $@"Downloads";//TEMP - Set the name of the downloads directory ///////// WILL USE A USER VARIABLE TO SET DIRECTORY!!!!!!
-
-            //For Testing commands
-            DirectoryInfo di = Directory.CreateDirectory(dirName);//Create directory
-            if (Directory.Exists(dirName))//If download dir is there, say its there
-            {
-                logRichTextBox.Text = ("Download Directory Exists\nNow Downloading, Please Wait. \nA full Log Will Be Shown Here.");//Show info in log box
-            }
-
-            else//If its not there say its not there, print in log window and create the dir
-            {
-                logRichTextBox.Text = ("Download Directory Does Not Exist\nCreating Directory\nNow Downloading, Please Wait. \nA full Log Will Be Shown Here.");// Show message in the log box
-            }
+            // Variables, Strings, ect
+            String SW0 = "-d";// -d The directory to store the downloaded file
+            String Link = linkTextBox.Text;// sets the text of linkTextBox as the link var
 
             //Invoker for downloading using ARIA2c
             this.Invoke((MethodInvoker)delegate
             {
-                System.Windows.Forms.MessageBox.Show("Download Started\nClick OK To Continue", "Download Information", MessageBoxButtons.OK, MessageBoxIcon.Information);// popup for download start
-
-                // Use ProcessStartInfo class
-                ProcessStartInfo startDL = new ProcessStartInfo();//Create process StartDL
-                startDL.CreateNoWindow = true;//Do not create a new terminal window
-                startDL.UseShellExecute = false;//Do not use shell 
-                startDL.RedirectStandardOutput = true;//Redirect output to rich text box
-                startDL.FileName = "Aria2/aria2c.exe";//Location of Aria binary
-                startDL.WindowStyle = ProcessWindowStyle.Hidden;//Hide cmd window
-                startDL.Arguments = sw1 + " " + cons + " " + link + " " + saveDir + " " + dirName;// Looks Like
-                //Command Example:  "aria2c.exe -x 16 www.site.com/download.zip -d Downloads"
                 try
-                {            
-                    // Start the process with the info we specified.
+                {
+                    // Use ProcessStartInfo class
+                    ProcessStartInfo startDL = new ProcessStartInfo();//Create process StartDL
+                    startDL.CreateNoWindow = true;//Do not create a new terminal window
+                    startDL.UseShellExecute = false;//Do not use shell 
+                    startDL.RedirectStandardOutput = true;//Redirect output to rich text box
+                    startDL.FileName = "Aria2/aria2c.exe";//Location of Aria binary
+                    startDL.WindowStyle = ProcessWindowStyle.Hidden;//Hide cmd window
+                    startDL.Arguments = MaxCons + " " + Link + " " + SW0 + " " + SAVEDIR + "/";// Looks Like
+                    //Command Example:  "aria2c.exe -x 16 www.site.com/download.zip -d Downloads"
                     // Call WaitForExit and then the using statement will close.
                     using (Process dlProcess = Process.Start(startDL))
                     {
                         string Output = dlProcess.StandardOutput.ReadToEnd();
                         dlProcess.WaitForExit();
                         logRichTextBox.Text = Output;
-                        System.Windows.Forms.MessageBox.Show("Download Finished", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
+                    hideF2();//hide form 2
                 }
 
                 catch
                 {
-                    System.Windows.Forms.MessageBox.Show("Download Error", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    hideF2();//hide form 2
+                    //Catch error and create popup saying there was a download error.
+                    System.Windows.Forms.MessageBox.Show("Download Error", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information, (MessageBoxDefaultButton)MessageBoxOptions.DefaultDesktopOnly);
+                    downloadButton.Enabled = true;//Reenable the download button
+                    multiDLButton.Enabled = true;//Reenable the download button
+                    multiDLButton.Hide();//Hide multidownload Button
+                    downloadButton.Show();//Show single link DL Button
                 }
             });
-            string dt = DateTime.Now.ToString("yyyy-dd-M--HH-mm-ss");// date time to string
-            logRichTextBox.SaveFile($"Downloads/{dt}_Logs.txt", RichTextBoxStreamType.RichText);//Save log window to log file with date timestamp
+
+            string dt = DateTime.Now.ToString("yyyy-dd-M--HH-mm-ss");//Create DT string to hold current date and time
+            logRichTextBox.SaveFile($"{LOGDIR}/{dt}_Logs.txt", RichTextBoxStreamType.RichText);//Output log window to log file
             downloadButton.Enabled = true;//Reinable download button after download finished
+            Application.Restart();
+        }
+
+        private void multiDLButton_Click(object sender, EventArgs e)
+        {
+            logRichTextBox.Text = "";//Clear rich text box log window
+            downloadButton.Enabled = false; // disable button while saving report
+            multiDLButton.Enabled = false;//disable button while saving report
+            StartMultiDL();// Run Multidownload function from clicking the Multi download button.
+        }
+
+        //Mutli Download Function 
+        private void StartMultiDL()
+        {
+            makeSaveDir();//make a save directory in the working dir
+            selSaveDir();//use set download dir
+            showF2();//show form2
+
+            // Variables, Strings, ect
+            String SW0 = "-d";// -d The directory to store the downloaded file
+            String SW2 = "-i";// -i Use link list file to download a list of links
+            String Linkfile = linkTextFileLabel.Text;// sets the text of linkTextBox as the link var
+            String CONS = connectionComboBox.Text;// takes the selection from the combobox and converts it to a string to use with aria2
+
+            this.Invoke((MethodInvoker)delegate
+            {          
+                try
+                {
+                    ProcessStartInfo startDL = new ProcessStartInfo();//Create process StartDL
+                    startDL.CreateNoWindow = true;//Do not create new terminal window for the task
+                    startDL.UseShellExecute = false;//Do not use shell to execute command
+                    startDL.RedirectStandardOutput = true;//Redirect terminal window to rich text box
+                    startDL.FileName = "Aria2/aria2c.exe";// Location and aria2.exe
+                    startDL.WindowStyle = ProcessWindowStyle.Hidden;//Hides command window
+                    startDL.Arguments = $"{SW2} {Linkfile} {MaxCons} {SW0} {SAVEDIR}/";//Example of link: "aria2c.exe -i link.txt -x 16 -d Downloads"
+                    // Start the process with the info we specified.
+                    // Call WaitForExit and then the using statement will close.
+                    using (Process dlProcess = Process.Start(startDL))
+                    {
+                        string Output = dlProcess.StandardOutput.ReadToEnd();//String for redirect of log output
+                        dlProcess.WaitForExit();//Wait for DL to finish before exit
+                        logRichTextBox.Text = Output;//Print output string redirect to the rich text box
+                    }
+                    hideF2();//hide form 2
+                }
+                catch
+                {
+                    //Catch error and create popup saying there was a download error.
+                    hideF2();//hide form 2
+                    System.Windows.Forms.MessageBox.Show("Download Error", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    downloadButton.Enabled = true;//Reenable the download button
+                    multiDLButton.Enabled = true;//Reenable the download button
+                    multiDLButton.Hide();//Hide multidownload Button
+                    downloadButton.Show();//Show single link DL Button
+                }
+            });
+            string dt = DateTime.Now.ToString("yyyy-dd-M--HH-mm-ss");//Create DT string to hold current date and time
+            logRichTextBox.SaveFile($"{LOGDIR}/{dt}_Logs.txt", RichTextBoxStreamType.RichText);//Output log window to log file
+            downloadButton.Enabled = true;//Reenable the download button
+            multiDLButton.Enabled = true;//Reenable the download button
+            multiDLButton.Hide();//Hide multidownload Button
+            downloadButton.Show();//Show single link DL Button
+            Application.Restart();
         }
 
         //linkTextBox
@@ -225,8 +373,7 @@ namespace Archive_Downloader
         //Help Button****************************************
         private void logButton_Click(object sender, EventArgs e)//Log Button is now the Help button
         {
-            //Print About Message in the log window
-            logRichTextBox.Text = "Welcome to Archive Downloader Powered By Aria2. Please enter your link and number of connections to download a single file. To download multiple files please create a list of links, one link per line and select number of connections. Then click the download button to download your list of links.";
+            helpOptions();//Prints aria2 help information to the log window on load
         }
 
         //Home button in the settings 
@@ -252,79 +399,42 @@ namespace Archive_Downloader
             if (resumeFile.ShowDialog() == DialogResult.OK)//File added = OK ///////////////// NEED TO ADD RELITIVE AND ABSOLUTE PATHS
             {
                 //Currently only works with TEXT FILE in the working Directory
-                pathLabel.Text = "Link File Added";//Print Link File Added to the label to the right of the button
-                logRichTextBox.Text = Path.GetFileName(resumeFile.FileName);// Print File Name in the log window
+                pathLabel.Text = "Link File Added: ";//Print Link File Added to the label to the right of the button
+                linkTextFileLabel.Text = Path.GetFileName(resumeFile.FileName);// Print File Name in the log window
             }
         }
 
-        //Mutli Download Function 
-        private void StartMultiDL()
+        private void selSaveDir()
         {
-            // Variables, Strings, ect
-            string linkfile = logRichTextBox.Text;// sets the text of linkTextBox as the link var
-            string cons = connectionComboBox.Text;// takes the selection from the combobox and converts it to a string to use with aria2
-            string saveDir = "-d";//The directory to store the downloaded file
-            string sw1 = "-x";//The maximum number of connections to one server for each download.
-            string sw2 = "-i";
-            var dirName = $@"Downloads";
-
-            //For Testing commands
-            DirectoryInfo di = Directory.CreateDirectory(dirName);
-            if (Directory.Exists(dirName))//If download dir is there, say its there
+            saveDirLabel.Text = "";// Clear label text
+            FolderBrowserDialog fbd = new FolderBrowserDialog();//New Open folder window
+            fbd.Description = "Select Your Download(s) Save Location";//File Browser info
+            if (fbd.ShowDialog() == DialogResult.OK)//If folder selection is OK
             {
-                logRichTextBox.Text = ("Download Directory Exists\nNow Downloading, Please Wait. \nA full Log Will Be Shown Here.");
+                string sSelectedPath = fbd.SelectedPath;//String selected dir path
+                saveDirLabel.Text = $"{fbd.SelectedPath}".ToString();//store path in directory label
+                SAVEDIR = saveDirLabel.Text;
+            }
+        }
+
+        //User selected save folder
+        private void makeSaveDir()
+        {
+            DirectoryInfo di = Directory.CreateDirectory(LOGDIR);//Create directory
+            if (Directory.Exists(LOGDIR))//If download dir is there, say its there
+            {
+                logRichTextBox.Text = ("Log Directory Exists: " + LOGDIR);//Show info in log box
             }
 
             else//If its not there say its not there, print in log window and create the dir
             {
-                logRichTextBox.Text = ("Download Directory Does Not Exist\nCreating Directory\nNow Downloading, Please Wait. \nA full Log Will Be Shown Here.");
-
+                logRichTextBox.Text = ("Log Directory Does Not Exist Creating Directory: " + LOGDIR);// Show message in the log box
             }
-
-            this.Invoke((MethodInvoker)delegate
-            {
-                //Show messgae box when download fineshes
-                System.Windows.Forms.MessageBox.Show("Download Finished", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                // Use ProcessStartInfo class
-                ProcessStartInfo startDL = new ProcessStartInfo();//Create process StartDL
-                startDL.CreateNoWindow = true;//Do not create new terminal window for the task
-                startDL.UseShellExecute = false;//Do not use shell to execute command
-                startDL.RedirectStandardOutput = true;//Redirect terminal window to rich text box
-                startDL.FileName = "Aria2/aria2c.exe";// Location and aria2.exe
-                startDL.WindowStyle = ProcessWindowStyle.Hidden;//Hides command window
-                startDL.Arguments = $"{sw2} {linkfile} {sw1} {cons} {saveDir} {dirName}";//Example of link: "aria2c.exe -i link.txt -x 16 -d Downloads"
-                try
-                {
-                    // Start the process with the info we specified.
-                    // Call WaitForExit and then the using statement will close.
-                    using (Process dlProcess = Process.Start(startDL))
-                    {
-                        string Output = dlProcess.StandardOutput.ReadToEnd();//String for redirect of log output
-                        dlProcess.WaitForExit();//Wait for DL to finish before exit
-                        logRichTextBox.Text = Output;//Print output string redirect to the rich text box
-                        System.Windows.Forms.MessageBox.Show("Download Finished", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);//Download finished
-                    }
-                }
-
-                catch
-                {
-                    //Catch error and create popup saying there was a download error.
-                    System.Windows.Forms.MessageBox.Show("Download Error", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-            });
-            string dt = DateTime.Now.ToString("yyyy-dd-M--HH-mm-ss");//Create DT string to hold current date and time
-            logRichTextBox.SaveFile($"Downloads/{dt}_Logs.txt", RichTextBoxStreamType.RichText);//Output log window to log file
-            downloadButton.Enabled = true;//Reenable the download button
-            multiDLButton.Enabled = true;//Reenable the download button
-            multiDLButton.Hide();//Hide multidownload Button
-            downloadButton.Show();//Show single link DL Button
-            pathLabel.Text = "";//Clear the path text box
-
         }
 
-        private void multiDLButton_Click(object sender, EventArgs e)
+        private void maxSpeedCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            StartMultiDL();// Run Multidownload function from clicking the Multi download button.
+
         }
     }
 }
