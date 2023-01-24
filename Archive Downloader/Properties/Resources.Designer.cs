@@ -63,6 +63,16 @@ namespace Archive_Downloader.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] acct {
+            get {
+                object obj = ResourceManager.GetObject("acct", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] aria2c {
             get {
                 object obj = ResourceManager.GetObject("aria2c", resourceCulture);
@@ -132,6 +142,15 @@ namespace Archive_Downloader.Properties {
         internal static System.IO.UnmanagedMemoryStream Rumper_Stumper {
             get {
                 return ResourceManager.GetStream("Rumper_Stumper", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream voices_Form2 {
+            get {
+                return ResourceManager.GetStream("voices_Form2", resourceCulture);
             }
         }
     }

@@ -29,6 +29,7 @@ namespace Archive_Downloader
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.linkTextBox = new System.Windows.Forms.TextBox();
             this.linkLabel = new System.Windows.Forms.Label();
@@ -42,10 +43,11 @@ namespace Archive_Downloader
             this.gitLinkLabel = new System.Windows.Forms.LinkLabel();
             this.resumeButton = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.titleLabel = new System.Windows.Forms.Label();
             this.closeButton = new System.Windows.Forms.Button();
+            this.titleLabel = new System.Windows.Forms.Label();
             this.settingsPanel = new System.Windows.Forms.Panel();
             this.aboutButton = new System.Windows.Forms.Button();
+            this.httpSettingsButton = new System.Windows.Forms.Button();
             this.ftpSettingsButton = new System.Windows.Forms.Button();
             this.homeButton = new System.Windows.Forms.Button();
             this.settingsButton = new System.Windows.Forms.Button();
@@ -61,9 +63,20 @@ namespace Archive_Downloader
             this.saveDirLabel = new System.Windows.Forms.Label();
             this.linkTextFileLabel = new System.Windows.Forms.Label();
             this.maxSpeedCheckBox = new System.Windows.Forms.CheckBox();
+            this.httpSaveButton = new System.Windows.Forms.Button();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.acctDataSet = new Archive_Downloader.acctDataSet();
+            this.linksBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.linksTableAdapter = new Archive_Downloader.acctDataSetTableAdapters.LinksTableAdapter();
+            this.iDDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.downloadsDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.pastCheckBox = new System.Windows.Forms.CheckBox();
             this.panel1.SuspendLayout();
             this.settingsPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.iconPictureBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.acctDataSet)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.linksBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // linkTextBox
@@ -117,6 +130,7 @@ namespace Archive_Downloader
             this.connectionComboBox.Size = new System.Drawing.Size(48, 21);
             this.connectionComboBox.TabIndex = 3;
             this.connectionComboBox.Text = "16";
+            this.connectionComboBox.SelectedIndexChanged += new System.EventHandler(this.connectionComboBox_SelectedIndexChanged);
             // 
             // downloadButton
             // 
@@ -180,23 +194,36 @@ namespace Archive_Downloader
             // 
             // resumeButton
             // 
+            this.resumeButton.Enabled = false;
             this.resumeButton.Location = new System.Drawing.Point(206, 400);
             this.resumeButton.Name = "resumeButton";
             this.resumeButton.Size = new System.Drawing.Size(126, 23);
             this.resumeButton.TabIndex = 11;
             this.resumeButton.Text = "Resume Download";
             this.resumeButton.UseVisualStyleBackColor = true;
+            this.resumeButton.Click += new System.EventHandler(this.resumeButton_Click);
             // 
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.panel1.Controls.Add(this.titleLabel);
             this.panel1.Controls.Add(this.closeButton);
+            this.panel1.Controls.Add(this.titleLabel);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(549, 25);
             this.panel1.TabIndex = 12;
+            // 
+            // closeButton
+            // 
+            this.closeButton.BackgroundImage = global::Archive_Downloader.Properties.Resources.close;
+            this.closeButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.closeButton.Location = new System.Drawing.Point(521, -2);
+            this.closeButton.Name = "closeButton";
+            this.closeButton.Size = new System.Drawing.Size(30, 29);
+            this.closeButton.TabIndex = 3;
+            this.closeButton.UseVisualStyleBackColor = true;
+            this.closeButton.Click += new System.EventHandler(this.closeButton_Click);
             // 
             // titleLabel
             // 
@@ -211,27 +238,17 @@ namespace Archive_Downloader
             this.titleLabel.TabIndex = 23;
             this.titleLabel.Text = "Archive Downloader: Powered By - ARIA2c";
             // 
-            // closeButton
-            // 
-            this.closeButton.BackgroundImage = global::Archive_Downloader.Properties.Resources.close;
-            this.closeButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.closeButton.Location = new System.Drawing.Point(521, -2);
-            this.closeButton.Name = "closeButton";
-            this.closeButton.Size = new System.Drawing.Size(30, 29);
-            this.closeButton.TabIndex = 3;
-            this.closeButton.UseVisualStyleBackColor = true;
-            this.closeButton.Click += new System.EventHandler(this.closeButton_Click);
-            // 
             // settingsPanel
             // 
             this.settingsPanel.BackColor = System.Drawing.Color.Silver;
             this.settingsPanel.Controls.Add(this.aboutButton);
+            this.settingsPanel.Controls.Add(this.httpSettingsButton);
             this.settingsPanel.Controls.Add(this.ftpSettingsButton);
             this.settingsPanel.Controls.Add(this.homeButton);
             this.settingsPanel.Controls.Add(this.settingsButton);
             this.settingsPanel.Location = new System.Drawing.Point(410, 0);
             this.settingsPanel.Name = "settingsPanel";
-            this.settingsPanel.Size = new System.Drawing.Size(114, 100);
+            this.settingsPanel.Size = new System.Drawing.Size(114, 129);
             this.settingsPanel.TabIndex = 13;
             // 
             // aboutButton
@@ -239,13 +256,26 @@ namespace Archive_Downloader
             this.aboutButton.Dock = System.Windows.Forms.DockStyle.Top;
             this.aboutButton.FlatAppearance.BorderSize = 0;
             this.aboutButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.aboutButton.Location = new System.Drawing.Point(0, 75);
+            this.aboutButton.Location = new System.Drawing.Point(0, 100);
             this.aboutButton.Name = "aboutButton";
             this.aboutButton.Size = new System.Drawing.Size(114, 25);
             this.aboutButton.TabIndex = 2;
             this.aboutButton.Text = "About";
             this.aboutButton.UseVisualStyleBackColor = true;
             this.aboutButton.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // httpSettingsButton
+            // 
+            this.httpSettingsButton.Dock = System.Windows.Forms.DockStyle.Top;
+            this.httpSettingsButton.FlatAppearance.BorderSize = 0;
+            this.httpSettingsButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.httpSettingsButton.Location = new System.Drawing.Point(0, 75);
+            this.httpSettingsButton.Name = "httpSettingsButton";
+            this.httpSettingsButton.Size = new System.Drawing.Size(114, 25);
+            this.httpSettingsButton.TabIndex = 4;
+            this.httpSettingsButton.Text = "HTTP Settings";
+            this.httpSettingsButton.UseVisualStyleBackColor = true;
+            this.httpSettingsButton.Click += new System.EventHandler(this.httpSettingsButton_Click_1);
             // 
             // ftpSettingsButton
             // 
@@ -326,9 +356,9 @@ namespace Archive_Downloader
             // 
             this.saveButton.Location = new System.Drawing.Point(223, 52);
             this.saveButton.Name = "saveButton";
-            this.saveButton.Size = new System.Drawing.Size(75, 23);
+            this.saveButton.Size = new System.Drawing.Size(98, 23);
             this.saveButton.TabIndex = 18;
-            this.saveButton.Text = "Save User";
+            this.saveButton.Text = "Save FTP User";
             this.saveButton.UseVisualStyleBackColor = true;
             this.saveButton.Visible = false;
             this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
@@ -364,7 +394,6 @@ namespace Archive_Downloader
             this.iconPictureBox.BackColor = System.Drawing.Color.Transparent;
             this.iconPictureBox.BackgroundImage = global::Archive_Downloader.Properties.Resources.aria2DL;
             this.iconPictureBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.iconPictureBox.ErrorImage = global::Archive_Downloader.Properties.Resources.loading;
             this.iconPictureBox.InitialImage = null;
             this.iconPictureBox.Location = new System.Drawing.Point(-1, 0);
             this.iconPictureBox.Name = "iconPictureBox";
@@ -380,6 +409,7 @@ namespace Archive_Downloader
             this.saveDirLabel.Size = new System.Drawing.Size(48, 13);
             this.saveDirLabel.TabIndex = 23;
             this.saveDirLabel.Text = "Save Dir";
+            this.saveDirLabel.Visible = false;
             // 
             // linkTextFileLabel
             // 
@@ -402,12 +432,91 @@ namespace Archive_Downloader
             this.maxSpeedCheckBox.UseVisualStyleBackColor = true;
             this.maxSpeedCheckBox.CheckedChanged += new System.EventHandler(this.maxSpeedCheckBox_CheckedChanged);
             // 
+            // httpSaveButton
+            // 
+            this.httpSaveButton.Location = new System.Drawing.Point(223, 52);
+            this.httpSaveButton.Name = "httpSaveButton";
+            this.httpSaveButton.Size = new System.Drawing.Size(98, 23);
+            this.httpSaveButton.TabIndex = 26;
+            this.httpSaveButton.Text = "Save HTTP User";
+            this.httpSaveButton.UseVisualStyleBackColor = true;
+            this.httpSaveButton.Visible = false;
+            this.httpSaveButton.Click += new System.EventHandler(this.httpSaveButton_Click_1);
+            // 
+            // dataGridView1
+            // 
+            this.dataGridView1.AllowUserToAddRows = false;
+            this.dataGridView1.AllowUserToDeleteRows = false;
+            this.dataGridView1.AllowUserToResizeColumns = false;
+            this.dataGridView1.AllowUserToResizeRows = false;
+            this.dataGridView1.AutoGenerateColumns = false;
+            this.dataGridView1.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.EnableWithoutHeaderText;
+            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.iDDataGridViewTextBoxColumn,
+            this.downloadsDataGridViewTextBoxColumn});
+            this.dataGridView1.DataSource = this.linksBindingSource;
+            this.dataGridView1.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
+            this.dataGridView1.Location = new System.Drawing.Point(32, 129);
+            this.dataGridView1.MultiSelect = false;
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.ReadOnly = true;
+            this.dataGridView1.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
+            this.dataGridView1.Size = new System.Drawing.Size(484, 240);
+            this.dataGridView1.TabIndex = 27;
+            this.dataGridView1.Visible = false;
+            this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
+            // 
+            // acctDataSet
+            // 
+            this.acctDataSet.DataSetName = "acctDataSet";
+            this.acctDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
+            // 
+            // linksBindingSource
+            // 
+            this.linksBindingSource.DataMember = "Links";
+            this.linksBindingSource.DataSource = this.acctDataSet;
+            // 
+            // linksTableAdapter
+            // 
+            this.linksTableAdapter.ClearBeforeFill = true;
+            // 
+            // iDDataGridViewTextBoxColumn
+            // 
+            this.iDDataGridViewTextBoxColumn.DataPropertyName = "ID";
+            this.iDDataGridViewTextBoxColumn.HeaderText = "ID";
+            this.iDDataGridViewTextBoxColumn.Name = "iDDataGridViewTextBoxColumn";
+            this.iDDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // downloadsDataGridViewTextBoxColumn
+            // 
+            this.downloadsDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.downloadsDataGridViewTextBoxColumn.DataPropertyName = "Downloads";
+            this.downloadsDataGridViewTextBoxColumn.HeaderText = "Downloads";
+            this.downloadsDataGridViewTextBoxColumn.Name = "downloadsDataGridViewTextBoxColumn";
+            this.downloadsDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // pastCheckBox
+            // 
+            this.pastCheckBox.AutoSize = true;
+            this.pastCheckBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.pastCheckBox.ForeColor = System.Drawing.Color.DarkRed;
+            this.pastCheckBox.Location = new System.Drawing.Point(32, 103);
+            this.pastCheckBox.Name = "pastCheckBox";
+            this.pastCheckBox.Size = new System.Drawing.Size(152, 17);
+            this.pastCheckBox.TabIndex = 28;
+            this.pastCheckBox.Text = "Show Past Downloads";
+            this.pastCheckBox.UseVisualStyleBackColor = true;
+            this.pastCheckBox.CheckedChanged += new System.EventHandler(this.pastCheckBox_CheckedChanged);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(549, 450);
-            this.Controls.Add(this.maxSpeedCheckBox);
+            this.Controls.Add(this.pastCheckBox);
+            this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.httpSaveButton);
             this.Controls.Add(this.linkTextFileLabel);
             this.Controls.Add(this.saveDirLabel);
             this.Controls.Add(this.iconPictureBox);
@@ -432,16 +541,20 @@ namespace Archive_Downloader
             this.Controls.Add(this.linkLabel);
             this.Controls.Add(this.linkTextBox);
             this.Controls.Add(this.panel1);
+            this.Controls.Add(this.maxSpeedCheckBox);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Archive Downloader";
-            this.Load += new System.EventHandler(this.Form1_Load);
+            this.Load += new System.EventHandler(this.Form1_Load_1);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.settingsPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.iconPictureBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.acctDataSet)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.linksBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -480,6 +593,15 @@ namespace Archive_Downloader
         private System.Windows.Forms.Label saveDirLabel;
         private System.Windows.Forms.Label linkTextFileLabel;
         private System.Windows.Forms.CheckBox maxSpeedCheckBox;
+        private System.Windows.Forms.Button httpSettingsButton;
+        private System.Windows.Forms.Button httpSaveButton;
+        private System.Windows.Forms.DataGridView dataGridView1;
+        private acctDataSet acctDataSet;
+        private System.Windows.Forms.BindingSource linksBindingSource;
+        private acctDataSetTableAdapters.LinksTableAdapter linksTableAdapter;
+        private System.Windows.Forms.DataGridViewTextBoxColumn iDDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn downloadsDataGridViewTextBoxColumn;
+        private System.Windows.Forms.CheckBox pastCheckBox;
     }
 }
 

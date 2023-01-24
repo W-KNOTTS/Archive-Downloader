@@ -118,6 +118,9 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="acct" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\db\acct.accdb;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="aria2c" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\aria2\aria2c.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -138,5 +141,8 @@
   </data>
   <data name="Rumper_Stumper" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\wav\rumper_stumper.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="voices_Form2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\wav\voices-form2.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
 </root>

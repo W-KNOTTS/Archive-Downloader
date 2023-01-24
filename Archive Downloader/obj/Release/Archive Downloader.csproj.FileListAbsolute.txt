@@ -1,14 +1,14 @@
+C:\Users\Will\Documents\_______CST-326\ArchiveDownloaderVS\Archive Downloader\Archive Downloader\bin\Release\DB\acct.accdb
 C:\Users\Will\Documents\_______CST-326\ArchiveDownloaderVS\Archive Downloader\Archive Downloader\bin\Release\Aria2\aria2c.exe
+C:\Users\Will\Documents\_______CST-326\ArchiveDownloaderVS\Archive Downloader\Archive Downloader\bin\Release\Aria2\loading.gif
+C:\Users\Will\Documents\_______CST-326\ArchiveDownloaderVS\Archive Downloader\Archive Downloader\bin\Release\links.txt
 C:\Users\Will\Documents\_______CST-326\ArchiveDownloaderVS\Archive Downloader\Archive Downloader\bin\Release\Archive Downloader.exe.config
 C:\Users\Will\Documents\_______CST-326\ArchiveDownloaderVS\Archive Downloader\Archive Downloader\bin\Release\Archive Downloader.exe
 C:\Users\Will\Documents\_______CST-326\ArchiveDownloaderVS\Archive Downloader\Archive Downloader\bin\Release\Archive Downloader.pdb
-C:\Users\Will\Documents\_______CST-326\ArchiveDownloaderVS\Archive Downloader\Archive Downloader\obj\Release\Archive Downloader.csproj.AssemblyReference.cache
 C:\Users\Will\Documents\_______CST-326\ArchiveDownloaderVS\Archive Downloader\Archive Downloader\obj\Release\Archive_Downloader.Form1.resources
+C:\Users\Will\Documents\_______CST-326\ArchiveDownloaderVS\Archive Downloader\Archive Downloader\obj\Release\Archive_Downloader.Form2.resources
 C:\Users\Will\Documents\_______CST-326\ArchiveDownloaderVS\Archive Downloader\Archive Downloader\obj\Release\Archive_Downloader.Properties.Resources.resources
 C:\Users\Will\Documents\_______CST-326\ArchiveDownloaderVS\Archive Downloader\Archive Downloader\obj\Release\Archive Downloader.csproj.GenerateResource.cache
 C:\Users\Will\Documents\_______CST-326\ArchiveDownloaderVS\Archive Downloader\Archive Downloader\obj\Release\Archive Downloader.csproj.CoreCompileInputs.cache
 C:\Users\Will\Documents\_______CST-326\ArchiveDownloaderVS\Archive Downloader\Archive Downloader\obj\Release\Archive Downloader.exe
 C:\Users\Will\Documents\_______CST-326\ArchiveDownloaderVS\Archive Downloader\Archive Downloader\obj\Release\Archive Downloader.pdb
-C:\Users\Will\Documents\_______CST-326\ArchiveDownloaderVS\Archive Downloader\Archive Downloader\bin\Release\links.txt
-C:\Users\Will\Documents\_______CST-326\ArchiveDownloaderVS\Archive Downloader\Archive Downloader\obj\Release\Archive_Downloader.Form2.resources
-C:\Users\Will\Documents\_______CST-326\ArchiveDownloaderVS\Archive Downloader\Archive Downloader\bin\Release\Aria2\loading.gif

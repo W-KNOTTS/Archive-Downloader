@@ -64,6 +64,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="acctDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>acctDataSet.xsd</DependentUpon>
+    </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -94,6 +99,17 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="acctDataSet.xsc">
+      <DependentUpon>acctDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="acctDataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>acctDataSet.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="acctDataSet.xss">
+      <DependentUpon>acctDataSet.xsd</DependentUpon>
+    </None>
     <None Include="ClassDiagram1.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -116,6 +132,9 @@
     <Content Include="Aria2\loading.gif">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="DB\acct.accdb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="icons\aria2DL.png" />
     <Content Include="icons\close.png" />
     <Content Include="icons\loading.png" />
@@ -123,6 +142,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="wav\Rumper_Stumper.wav" />
+    <Content Include="wav\voices-Form2.wav" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

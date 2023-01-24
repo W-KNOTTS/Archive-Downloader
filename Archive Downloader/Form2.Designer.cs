@@ -31,6 +31,8 @@ namespace Archive_Downloader
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form2));
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.lblWarning = new System.Windows.Forms.Label();
+            this.lblSoftBlink = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -49,12 +51,35 @@ namespace Archive_Downloader
             this.pictureBox1.TabStop = false;
             this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
+            // lblWarning
+            // 
+            this.lblWarning.AutoSize = true;
+            this.lblWarning.BackColor = System.Drawing.SystemColors.Control;
+            this.lblWarning.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblWarning.Location = new System.Drawing.Point(481, 346);
+            this.lblWarning.Name = "lblWarning";
+            this.lblWarning.Size = new System.Drawing.Size(19, 26);
+            this.lblWarning.TabIndex = 1;
+            this.lblWarning.Text = "!";
+            // 
+            // lblSoftBlink
+            // 
+            this.lblSoftBlink.AutoSize = true;
+            this.lblSoftBlink.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSoftBlink.Location = new System.Drawing.Point(244, 346);
+            this.lblSoftBlink.Name = "lblSoftBlink";
+            this.lblSoftBlink.Size = new System.Drawing.Size(237, 26);
+            this.lblSoftBlink.TabIndex = 2;
+            this.lblSoftBlink.Text = "Download Is Working";
+            // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(549, 450);
             this.ControlBox = false;
+            this.Controls.Add(this.lblSoftBlink);
+            this.Controls.Add(this.lblWarning);
             this.Controls.Add(this.pictureBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -64,11 +89,14 @@ namespace Archive_Downloader
             this.Load += new System.EventHandler(this.Form2_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Label lblWarning;
+        private System.Windows.Forms.Label lblSoftBlink;
     }
 }
